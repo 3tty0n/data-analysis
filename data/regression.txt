@@ -1,0 +1,23 @@
+
+-------------------------Summary of Regression Analysis-------------------------
+
+Formula: Y ~ <x> + <intercept>
+
+Number of Observations:         1870
+Number of Degrees of Freedom:   2
+
+R-squared:         0.8835
+Adj R-squared:     0.8834
+
+Rmse:           1505.4458
+
+F-stat (1, 1868): 14160.3938, p-value:     0.0000
+
+Degrees of Freedom: model 1, resid 1868
+
+-----------------------Summary of Estimated Coefficients------------------------
+      Variable       Coef    Std Err     t-stat    p-value    CI 2.5%   CI 97.5%
+--------------------------------------------------------------------------------
+             x     0.0655     0.0006     119.00     0.0000     0.0644     0.0666
+     intercept  -116.7771    41.7843      -2.79     0.0052  -198.6743   -34.8800
+---------------------------------End of Summary---------------------------------
