@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 12: 政府統計の総合窓口より2012年の人口状況(市町村名)
 """
 
-df = pd.read_csv('csv/input2.csv', header=None, skiprows=1, encoding='utf-8')
+df = pd.read_csv('csv/input.csv', header=None, skiprows=1, encoding='utf-8')
 del(df[0])
 del(df[4])
 del(df[5])

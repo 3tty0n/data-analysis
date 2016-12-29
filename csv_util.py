@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def to_log():
-    df = pd.read_csv('csv/input2.csv', header=-1, skiprows=1)
+    df = pd.read_csv('csv/input.csv', header=-1, skiprows=1)
     del(df[12])
 
     df_arr = np.array(df).T

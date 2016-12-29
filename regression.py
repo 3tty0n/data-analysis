@@ -48,7 +48,7 @@ def calc_relation(df):
     plt.show()
 
 if __name__ == '__main__':
-    df = pd.read_csv('csv/input2.csv', header=-1, skiprows=1, encoding='utf-8')
+    df = pd.read_csv('csv/input.csv', header=-1, skiprows=1, encoding='utf-8')
     # regression_middle_away(df)
     # regression_old_divorce(df)
     calc_relation(df)
