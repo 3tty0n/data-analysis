@@ -5,8 +5,19 @@ from scipy import linalg as LA # 重回帰分析
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  #3Dplot
 
+columns_log = [
+    'total', 'under15', '15to64', 'over64', 'birth', 'death',
+    'transferee', 'out-migrant', 'daytime', 'elder', 'marriage', 'divorce'
+]
+
+columns = [
+    'total', 'under15', '15to64', 'over64', 'birth', 'death',
+    'transferee', 'out-migrant', 'daytime', 'elder', 'marriage', 'divorce', 'name'
+]
+
 
 def regression_middle_away(df):
+    df = pd.read_csv('data/csv/input.csv', header=None, skiprows=1, encoding='utf-8')
     df = df[np.isfinite(df[2])]
     df = df[np.isfinite(df[7])]
     pop_middle = df[2]
@@ -24,7 +35,8 @@ def regression_middle_away(df):
     plt.show()
 
 
-def regression_old_divorce(df):
+def regression_old_divorce():
+    df = pd.read_csv('data/csv/input.csv', header=None, skiprows=1, encoding='utf-8')
     divorce = df[11]
     old = df[4]
 
@@ -40,17 +52,24 @@ def regression_old_divorce(df):
     plt.show()
 
 
-def calc_relation(df):
+def calc_relation(is_log=True):
     from pandas.tools.plotting import scatter_matrix  # 散布図行列を求める
-    plt.figure()
-    plt.savefig('data/scatter.png')
-    scatter_matrix(df)
+    df = pd.read_csv('data/csv/input_log.csv', header=None, skiprows=1, encoding='utf-8')
+    if is_log is True:
+        del df[12]
+        df_res = pd.DataFrame(np.array(df), columns=columns_log)
+        scatter_matrix(df_res)
+        plt.savefig('data/picture/scatter_log.png')
+    else:
+        df_res = pd.DataFrame(np.array(df), columns=columns_log)
+        scatter_matrix(df_res)
+        plt.savefig('data/picture/scatter.png')
     plt.show()
 
+
 if __name__ == '__main__':
-    df = pd.read_csv('input_csv/input.csv', header=-1, skiprows=1, encoding='utf-8')
     # regression_middle_away(df)
     # regression_old_divorce(df)
-    calc_relation(df)
+    calc_relation(False)
 
 

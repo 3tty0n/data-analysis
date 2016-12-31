@@ -16,13 +16,15 @@ def cluster_v1():
 
 
 def cluster_v2():
-    df = pd.read_csv('data/csv/input.csv', header=None, skiprows=1, encoding='utf-8')
-    labels = df[1]
-    df.drop(1)
-    del df[12]
+    df = pd.read_csv('data/csv/input_log.csv', header=None, skiprows=1, encoding='utf-8')
+    labels = df.ix[:, 0]
     pca_2 = dec.PCA(2)
     plot_colums = pca_2.fit_transform(df)
     plt.scatter(x=plot_colums[:,0], y=plot_colums[:,1], c=labels)
+    plt.xlabel('PC1')
+    plt.ylabel('PC2')
+    plt.title('Cluster Analysis using logged data')
+    plt.savefig('data/picture/pca_log.png')
     plt.show()
 
 
