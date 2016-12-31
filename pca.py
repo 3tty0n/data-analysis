@@ -2,16 +2,29 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.decomposition import PCA
+import sklearn.decomposition as dec
 
-df = pd.read_csv('csv/input_log.csv', header=-1, skiprows=1)
-del(df[0])
-for i in range(4, 12):
-    del(df[i])
-pca = PCA(n_components=2)
-pca.fit(df)
-pca = pca.transform(df)
-np_array = np.array(pca)
-np_array = np_array.T
-plt.scatter(np_array[0], np_array[1])
-plt.show()
+
+def cluster_v1():
+    df = pd.read_csv('input_csv/input.csv')
+    del(df['name'])
+    X = df
+    y = df['daytime']
+    X_bis = dec.RandomizedPCA().fit_transform(X)
+    plt.scatter(X_bis[:, 0], X_bis[:, 1], c=df['total'], s=30, cmap=plt.cm.rainbow)
+    plt.show()
+
+
+def cluster_v2():
+    df = pd.read_csv('input_csv/input.csv', header=None, skiprows=1, encoding='utf-8')
+    labels = df[1]
+    df.drop(1)
+    del df[12]
+    pca_2 = dec.PCA(2)
+    plot_colums = pca_2.fit_transform(df)
+    plt.scatter(x=plot_colums[:,0], y=plot_colums[:,1], c=labels)
+    plt.show()
+
+
+if __name__ == '__main__':
+    cluster_v2()
