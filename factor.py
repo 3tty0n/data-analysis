@@ -5,7 +5,7 @@ import seaborn as sbn
 from sklearn.decomposition import PCA
 from sklearn import svm
 
-df = pd.read_csv('input_csv/input.csv', header=-1, skiprows=1, encoding='utf-8')
+df = pd.read_csv('data/csv/input.csv', header=-1, skiprows=1, encoding='utf-8')
 del(df[1])
 del(df[12])
 pca = PCA(n_components=2, whiten=False)
@@ -19,5 +19,5 @@ for i, point in enumerate(pca_point):
 
 plt.xlabel('PC1')
 plt.ylabel('PC2')
-plt.savefig('data/factor.png')
+plt.savefig('data/picture/factor.png')
 plt.show()

@@ -6,7 +6,7 @@ import sklearn.decomposition as dec
 
 
 def cluster_v1():
-    df = pd.read_csv('input_csv/input.csv')
+    df = pd.read_csv('data/csv/input.csv')
     del(df['name'])
     X = df
     y = df['daytime']
@@ -16,7 +16,7 @@ def cluster_v1():
 
 
 def cluster_v2():
-    df = pd.read_csv('input_csv/input.csv', header=None, skiprows=1, encoding='utf-8')
+    df = pd.read_csv('data/csv/input.csv', header=None, skiprows=1, encoding='utf-8')
     labels = df[1]
     df.drop(1)
     del df[12]

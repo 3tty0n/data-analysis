@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def to_log_pandas():
-    df = pd.read_csv('input_csv/input.csv', header=None, skiprows=1, encoding='utf-8')
+    df = pd.read_csv('data/csv/input.csv', header=None, skiprows=1, encoding='utf-8')
     df = df.drop(12, axis=1)
 
     df_arr = np.array(df).T
@@ -18,7 +18,7 @@ def to_log_pandas():
 
     df_res = pd.DataFrame(np.array(res_arr).T, columns=columns)
     print(df_res)
-    df_res.to_csv('input_csv/input_log.csv', index=None, index_label=None)
+    df_res.to_csv('data/csv/input_log.csv', index=None, index_label=None)
 
 
 if __name__ == '__main__':

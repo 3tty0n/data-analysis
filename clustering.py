@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 12: 政府統計の総合窓口より2012年の人口状況(市町村名)
 """
 
-df = pd.read_csv('input_csv/input.input_csv', header=None, skiprows=1, encoding='utf-8')
+df = pd.read_csv('data/csv/input.input_csv', header=None, skiprows=1, encoding='utf-8')
 del(df[0])
 del(df[4])
 del(df[5])
@@ -46,5 +46,5 @@ for i in range(4):
 clusterinfo = clusterinfo.drop('cluster_id')
 plot = clusterinfo.T.plot(kind='bar', stacked=True, title="Mean Value of 4 Clusters")
 plot.set_xticklabels(plot.xaxis.get_majorticklabels(), rotation=0)
-plt.savefig('data/clustering.png')
+plt.savefig('data/picture/clustering.png')
 plt.show()
