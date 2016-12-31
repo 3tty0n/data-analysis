@@ -1,20 +1,25 @@
-import input_csv
+import csv
 import numpy as np
 import pandas as pd
 
 
 def to_log_pandas():
-    df = pd.read_csv('input_csv/input.csv', header=-1, skiprows=1)
-    del(df[12])
+    df = pd.read_csv('input_csv/input.csv', header=None, skiprows=1, encoding='utf-8')
+    df = df.drop(12, axis=1)
 
     df_arr = np.array(df).T
     res_arr = []
     for arr in df_arr:
         res_arr.append(list(map(lambda x: np.log(1 + x), arr)))
 
-    df_res = pd.DataFrame(np.array(res_arr).T)
-    df_res.to_csv('input_csv/input_log.input_csv')
+    columns = [
+        'total', 'under15', '15to64', 'over64', 'birth', 'death',
+        'transferee', 'out-migrant', 'daytime', 'elder', 'marriage', 'divorce']
+
+    df_res = pd.DataFrame(np.array(res_arr).T, columns=columns)
+    print(df_res)
+    df_res.to_csv('input_csv/input_log.csv', index=None, index_label=None)
 
 
-def to_log_csv():
-    csv_reader = csv.reader(open('input_csv/input.csv'))
+if __name__ == '__main__':
+    to_log_pandas()
