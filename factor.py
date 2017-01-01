@@ -10,42 +10,51 @@ from sklearn import svm
 
 def main():
     fp = FontProperties(fname='/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc', size=8)
-    factor(fp=fp)
+    factor(fp=fp, is_save=True)
 
 
-def factor(is_log=True, is_tmp=False, fp=None):
-    assert fp
-
+def read_csv(is_log):
     if is_log is True:
         df = pd.read_csv('data/csv/input_log.csv', encoding='utf-8')
     else:
         df = pd.read_csv('data/csv/input.csv', encoding='utf-8')
+    return df
+
+
+def factor(is_log=True, is_save=False, fp=None):
+    assert fp
+
+    df = read_csv(is_log)
+
     df_index = df['name']
     df = df.drop('name', axis=1)
     pca = PCA(n_components=2, whiten=False)
     pca_point = pca.fit_transform(df)
 
-    clf = svm.LinearSVC()
+    fig, ax = plt.subplots(figsize=(12, 8), dpi=100)
 
-    # for i in range(len(df_index)):
-    #     plt.scatter(pca_point[i, 0], pca_point[i, 1])
+    def annotate(txt):
+        ax.annotate(txt, (pca_point[i, 0], pca_point[i, 1]), fontproperties=fp)
 
-    fig, ax = plt.subplots()
-    ax.scatter(pca_point[:, 0], pca_point[:, 1])
+    def scatter(c):
+        plt.scatter(pca_point[i, 0], pca_point[i, 1], c=c)
+
     for i, txt in enumerate(df_index):
         if '村' in txt:
-            ax.annotate(txt, (pca_point[i, 0], pca_point[i, 1]), fontproperties=fp)
+            annotate(txt)
+            scatter('r')
+        elif '区' in txt:
+            annotate(txt)
+            scatter('y')
         else:
-            ax.annotate('', (pca_point[i, 0], pca_point[i, 1]), fontproperties=fp)
+            scatter('b')
 
     plt.xlabel('PC1')
     plt.ylabel('PC2')
-    if is_tmp is True:
-        if is_log is True: plt.savefig('data/picture/factor_log_tmp.png')
-        else: plt.savefig('data/picture/factor_tmp.png')
-    else:
-        if is_log is True: plt.savefig('data/picture/factor_log.png')
-        else: plt.savefig('data/picture/factor.png')
+    if is_save is True and is_log is True:
+        plt.savefig('data/picture/factor_log.png')
+    elif is_save is True and is_log is False:
+        plt.savefig('data/picture/factor.png')
     plt.show()
 
 if __name__ == '__main__':
