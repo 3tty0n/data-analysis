@@ -1,22 +1,13 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from columns import columns, columns_log
 from scipy import linalg as LA # 重回帰分析
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  #3Dplot
 
-columns_log = [
-    'total', 'under15', '15to64', 'over64', 'birth', 'death',
-    'transferee', 'out-migrant', 'daytime', 'elder', 'marriage', 'divorce'
-]
 
-columns = [
-    'total', 'under15', '15to64', 'over64', 'birth', 'death',
-    'transferee', 'out-migrant', 'daytime', 'elder', 'marriage', 'divorce', 'name'
-]
-
-
-def regression_middle_away(df):
+def regression_middle_away():
     df = pd.read_csv('data/csv/input.csv', header=None, skiprows=1, encoding='utf-8')
     df = df[np.isfinite(df[2])]
     df = df[np.isfinite(df[7])]
@@ -61,7 +52,7 @@ def calc_relation(is_log=True):
         scatter_matrix(df_res)
         plt.savefig('data/picture/scatter_log.png')
     else:
-        df_res = pd.DataFrame(np.array(df), columns=columns_log)
+        df_res = pd.DataFrame(np.array(df), columns=columns)
         scatter_matrix(df_res)
         plt.savefig('data/picture/scatter.png')
     plt.show()
