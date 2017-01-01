@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
-from columns import columns
+
+columns = [
+    'total', 'under15', '15to64', 'over64', 'birth', 'death',
+    'transferee', 'out-migrant', 'daytime', 'elder', 'marriage', 'divorce', 'name'
+]
 
 
 def to_log_pandas():

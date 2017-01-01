@@ -41,7 +41,7 @@ def pca_components(is_log=True, is_save=False):
     """
     因子負荷量、寄与率、累積寄与率を計算しプロットする。
 
-    因子負荷量 : • 各変数の各主成分への影響⼒ → 各主成分の意味の推定
+    因子負荷量 : 各変数の各主成分への影響⼒ → 各主成分の意味の推定
     寄与率 : 各主成分の重要性
     累積寄与率 : 主成分の寄与率を⾜し合わせたもの
                 選択した複数の主成分によって説明できるデータの割合を表す
@@ -61,7 +61,7 @@ def pca_components(is_log=True, is_save=False):
 
     ax.plot(components[0], c='r', label='PC1')
     ax.plot(components[1], c='b', label='PC2')
-    from columns import columns
+    from util import columns
     ticks = ax.set_xticks(range(0, 12))
     labels = ax.set_xticklabels(columns, rotation=30, fontsize='large')
     ax.legend()

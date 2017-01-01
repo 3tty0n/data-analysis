@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from columns import columns, columns_log
+from util import columns
 from scipy import linalg as LA # 重回帰分析
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  #3Dplot

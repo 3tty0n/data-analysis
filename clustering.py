@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 from sklearn.cluster import KMeans
-from columns import columns
+from util import columns
 
 df = pd.read_csv('data/csv/input.csv', encoding='utf-8')
 df_name = df['name']
