@@ -3,3 +3,5 @@
 *.iml
 
 *.gz
+
+__pycache__/
