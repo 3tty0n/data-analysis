@@ -63,7 +63,7 @@ def pca_components(is_log=True, is_save=False):
     ax.plot(components[1], c='b', label='PC2')
     from util import columns
     ticks = ax.set_xticks(range(0, 12))
-    labels = ax.set_xticklabels(columns, rotation=30, fontsize='large')
+    labels = ax.set_xticklabels(columns, rotation=30, fontsize='small')
     ax.legend()
     if is_save is True:
         plt.savefig('data/picture/factor_components.png')
