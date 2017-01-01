@@ -10,7 +10,7 @@ from sklearn import svm
 
 def main():
     fp = FontProperties(fname='/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc', size=8)
-    factor(fp=fp, is_save=True)
+    factor(fp=fp, is_save=False)
 
 
 def read_csv(is_log):
@@ -21,15 +21,21 @@ def read_csv(is_log):
     return df
 
 
+def calc_pca(df):
+    df = df.drop('name', axis=1)
+
+    pca = PCA(n_components=2, whiten=False)
+    pca_point = pca.fit_transform(df)
+
+    return pca, pca_point
+
+
 def factor(is_log=True, is_save=False, fp=None):
     assert fp
 
     df = read_csv(is_log)
-
     df_index = df['name']
-    df = df.drop('name', axis=1)
-    pca = PCA(n_components=2, whiten=False)
-    pca_point = pca.fit_transform(df)
+    pca, pca_point = calc_pca(df)
 
     fig, ax = plt.subplots(figsize=(12, 8), dpi=100)
 
@@ -56,6 +62,7 @@ def factor(is_log=True, is_save=False, fp=None):
     elif is_save is True and is_log is False:
         plt.savefig('data/picture/factor.png')
     plt.show()
+
 
 if __name__ == '__main__':
     main()
