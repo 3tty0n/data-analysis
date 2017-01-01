@@ -11,7 +11,7 @@ from sklearn import svm
 def read_csv(is_log):
     """
     csvを読み込む
-    
+
     :param is_log: log(1+x)とスケール変換されたファイルを読み込むフラグ
     :return:
     """
@@ -37,7 +37,7 @@ def calc_pca(df):
     return pca, pca_point
 
 
-def pca_components(is_log=True):
+def pca_components(is_log=True, is_save=False):
     """
     因子負荷量、寄与率、累積寄与率を計算しプロットする。
 
@@ -51,11 +51,23 @@ def pca_components(is_log=True):
     :see: http://i.cla.kobe-u.ac.jp/murao/class/2015-SeminarB3/05_Python_de_PCA.pdf
     """
     df = read_csv(is_log)
+    index = df['name']
     pca, pca_point = calc_pca(df)
     components = pca.components_
     ratio = np.cumsum(pca.explained_variance_ratio_)
     print(components)
     print(ratio)
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    ax.plot(components[0], c='r', label='PC1')
+    ax.plot(components[1], c='b', label='PC2')
+    from columns import columns
+    ticks = ax.set_xticks(range(0, 12))
+    labels = ax.set_xticklabels(columns, rotation=30, fontsize='large')
+    ax.legend()
+    if is_save is True:
+        plt.savefig('data/picture/factor_components.png')
+    plt.show()
 
 
 def factor(is_log=True, is_save=False, fp=None):
@@ -73,23 +85,33 @@ def factor(is_log=True, is_save=False, fp=None):
     df_index = df['name']
     pca, pca_point = calc_pca(df)
 
-    fig, ax = plt.subplots(figsize=(12, 8), dpi=100)
+    fig, ax = plt.subplots(figsize=(10, 6), dpi=100)
 
     def annotate(txt):
         ax.annotate(txt, (pca_point[i, 0], pca_point[i, 1]), fontproperties=fp)
 
     def scatter(c):
-        plt.scatter(pca_point[i, 0], pca_point[i, 1], c=c)
+        plt.scatter(pca_point[i, 0], pca_point[i, 1], c=c, marker='o')
 
     for i, txt in enumerate(df_index):
-        if '村' in txt:
-            annotate(txt)
+        if txt[-1] == '村':
+            if '小笠原村' in txt or '青ヶ島村' in txt or '利島村' in txt or '南牧村' in txt:
+                annotate(txt)
             scatter('r')
-        elif '区' in txt:
-            annotate(txt)
+        elif txt[-1] == '区':
+            if '大田区' in txt or '千代田区' in txt or '足立区' in txt or '世田谷区' in txt or '西成区' in txt:
+                annotate(txt)
             scatter('y')
-        else:
+        elif txt[-1] == '市':
+            if '浦安市' in txt:
+                annotate(txt)
+            scatter('g')
+        elif txt[-1] == '町':
+            if '大豊町' in txt or '上関町' in txt or '国訪大島町' in txt or '周臨大島町' in txt:
+                annotate(txt)
             scatter('b')
+        else:
+            scatter('m')
 
     plt.xlabel('PC1')
     plt.ylabel('PC2')
@@ -101,9 +123,8 @@ def factor(is_log=True, is_save=False, fp=None):
 
 
 def main():
-    fp = FontProperties(fname='/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc', size=8)
-    factor(fp=fp, is_save=False)
-    pca_components()
+    fp = FontProperties(fname='/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc', size=10)
+    factor(fp=fp, is_save=True)
 
 
 if __name__ == '__main__':
