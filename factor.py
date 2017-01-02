@@ -124,7 +124,7 @@ def factor(is_log=True, is_save=False, fp=None):
 
 def main():
     fp = FontProperties(fname='/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc', size=10)
-    factor(fp=fp, is_save=True)
+    factor(fp=fp, is_save=False)
 
 
 if __name__ == '__main__':

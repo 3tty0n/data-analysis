@@ -13,9 +13,7 @@ def to_log_pandas():
     df_dropped = df.drop('name', axis=1)
 
     df_arr = np.array(df_dropped).T
-    res_arr = []
-    for arr in df_arr:
-        res_arr.append(list(map(lambda x: np.log(1 + x), arr)))
+    res_arr = list(map(lambda x: np.log(1 + x), map(lambda arr: arr, df_arr)))
 
     df_res = pd.DataFrame(np.array(res_arr).T)
     df_res['name'] = df_name
