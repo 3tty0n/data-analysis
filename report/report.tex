@@ -1,22 +1,120 @@
-\documentclass[a4paper, 11pt]{jsarticle}
+\documentclass[a4paper,xelatex,ja=standard,jafont=hiragino-pron]{bxjsarticle}
 
-\usepackage{otf}
-\usepackage{amsmath}
+\usepackage{xltxtra}
+\XeTeXlinebreaklocale "ja"
+
+\usepackage{amsmath, amssymb}
+\topmargin = 0mm
+\oddsidemargin = 5mm
+\textwidth = 152mm
+\textheight = 240mm
+\renewcommand{\thesection}{問\arabic{section}}
+\renewcommand{\thesubsection}{(\arabic{subsection})}
+\renewcommand{\thesubsubsection}{(\arabic{subsection}.\arabic{subsubsection})}
 
 \title{データ解析レポート課題・第一}
-\author{学籍番号：14\_01043 \\ 名前：伊澤侑祐}
+\author{14\_01043　伊澤　侑祐}
 \date{}
 
 \begin{document}
-
 \maketitle
-
 \section{計算問題}
+\subsection{$E(a)$を最小にするパラメータ$a^* = \{(a^*)_k$\}を求めよ}
+まず、$k$を固定する。二乗誤差
+
+\begin{eqnarray}
+  E(a) &=& \frac{1}{n} \sum_{i = 1}^n (Y_i - f(x_i, a))^2 \nonumber \\
+       &=& \frac{1}{n} \sum_{i = 1}^n (Y_i - \sum_{k = 1}^K a_k e_k(x))^2
+\end{eqnarray}
+
+を$a_k$について偏微分し、$\frac{\partial E}{\partial a_k} = 0$を解く。
+
+\begin{eqnarray}
+  &&\frac{\partial E}{\partial a_k}
+    = \frac{2}{n} \sum_{i = 0}^n (Y_i - a_ke_k(x)) \cdot e_k(x) = 0 \\
+    &\therefore& \, \sum_i^n Y_i e_k(x) - n a_k = 0
+    \label{ans-1-before}
+\end{eqnarray}
+
+よって求める答えは式\ref{ans-1-before}より
+
+\begin{equation}
+  a^* = \frac{1}{n} \sum_i^n Y_i e_k(x)
+\end{equation}
+
+である。
+
+\subsection{$a^*$の平均を求めよ}
+平均を$E_A(\cdot)$で表す。$E_A(Y_i) = 0$を用いて、
+
+\begin{eqnarray}
+  E_A(a^*)
+    &=& E_A \left(\frac{1}{n}\sum_{i=0}^n Y_i e_k (x) \right) \nonumber \\
+    &=& 0
+\end{eqnarray}
+
+となる。
+\subsection{}
+まず、一般に$(k, l)$成分の場合の共分散を考える。$i$成分の期待値を$\mu_i$と置くと、
+
+\begin{eqnarray}
+  \sigma_{i, j}
+    &=& E_A
+      \left(
+        \left(a^*_k - \mu_i\right)
+        \left(a^*_l - \mu_l\right)
+      \right) \nonumber \\
+    &=& E_A\left(a^*_k \cdot a^*_l \right) \nonumber \\
+    &=& E_A
+      \left(
+        \left(\frac{1}{n} \sum_{i = 1}^n Y_i e_k (x_i)\right)
+        \left(\frac{1}{n} \sum_{i = 1}^n Y_i e_l (x_i)\right)
+      \right) \nonumber \\
+    &=& \frac{1}{n^2} E_A
+      \left(
+        \sum_{i, j = 1}^n Y_i Y_j e_k(x_i) e_l(x_j)
+      \right) \label{var_ea_1}
+\end{eqnarray}
+
+となる。ここで、$E_A(Y_i) = 0, E_A(Y_i^2) = 1$であることより、
+
+\begin{eqnarray}
+  E_A\left(
+    \sum_{i, j = 1}^n Y_i Y_j e_k(x_i) e_l(x_j)
+  \right)
+    &=& \sum_{i, j = 1}^n E_A(Y_i)E_A(Y_j) \sum_{i, j = 1}^n e_k(x_i) e_l(x_j) \nonumber \\
+    &=& \begin{cases}
+      \sum_{i = 1}^n E_A(Y_i^2) \sum_{i = 1}^n e_k(x_i) e_l(x_i) & (i = j) \\
+      0  & (i \neq j)
+    \end{cases} \nonumber \\
+    &=& \begin{cases}
+      n^2 & (i = j) \\
+      0 & (i \neq j)
+    \end{cases} \label{var_ea_2}
+\end{eqnarray}
+
+となる。したがって、求める分散共分散行列 $\Sigma$ は、(\ref{var_ea_1})と(\ref{var_ea_2})より
+
+\begin{equation}
+  \Sigma = \left(
+    \begin{array}{cccc}
+      1 & 0 & \ldots & 0 \\
+      0 & 1 & \ldots & 0 \\
+      \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & \ldots & 1
+    \end{array}
+  \right) = I
+\end{equation}
+
+と求まる。
+
+\subsection{}
+
 
 \section{応用問題}
 
-\subsection*{(1)}
-「市町村2012estat.csv」に対し、回帰分析とクラスタ分析を用いて解析を行った。
+\subsection{}
+「市町村2012estat.csv」に対し、回帰分析、主成分分析とクラスタ分析を用いて解析を行った。
 
 \subsubsection{回帰分析}
 
