@@ -22,5 +22,10 @@ def to_log_pandas():
     df_res.to_csv('data/csv/input_log.csv', index=None, index_label=None, encoding='utf-8')
 
 
+def write_file(path, text):
+    f = open(path, 'w')
+    f.write(str(text))
+    f.close()
+
 if __name__ == '__main__':
     to_log_pandas()
