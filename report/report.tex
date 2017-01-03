@@ -4,6 +4,7 @@
 \XeTeXlinebreaklocale "ja"
 
 \usepackage{amsmath, amssymb}
+\usepackage{mathrsfs}
 \topmargin = 0mm
 \oddsidemargin = 5mm
 \textwidth = 152mm
@@ -19,7 +20,7 @@
 \begin{document}
 \maketitle
 \section{計算問題}
-\subsection{$E(a)$を最小にするパラメータ$a^* = \{(a^*)_k$\}を求めよ}
+\subsection{}
 まず、$k$を固定する。二乗誤差
 
 \begin{eqnarray}
@@ -27,29 +28,30 @@
        &=& \frac{1}{n} \sum_{i = 1}^n (Y_i - \sum_{k = 1}^K a_k e_k(x))^2
 \end{eqnarray}
 
-を$a_k$について偏微分し、$\frac{\partial E}{\partial a_k} = 0$を解く。
+を$a_k$で微分し、極値条件を解く。
 
 \begin{eqnarray}
   &&\frac{\partial E}{\partial a_k}
-    = \frac{2}{n} \sum_{i = 0}^n (Y_i - a_ke_k(x)) \cdot e_k(x) = 0 \\
-    &\therefore& \, \sum_i^n Y_i e_k(x) - n a_k = 0
+    = \frac{2}{n} \sum_{i = 0}^n (Y_i - a_ke_k(x)) \cdot e_k(x) = 0 \nonumber \\
+    &\Longleftrightarrow& \, \sum_{i=1}^n Y_i e_k(x) - n a_k = 0 \nonumber \\
+    &\Longleftrightarrow& \, a^*_k = \frac{1}{n} \sum_{i=1}^n Y_i e_k(x)
     \label{ans-1-before}
 \end{eqnarray}
 
-よって求める答えは式\ref{ans-1-before}より
+よって求める答えは(\ref{ans-1-before})より
 
 \begin{equation}
-  a^* = \frac{1}{n} \sum_i^n Y_i e_k(x)
+  a^* = \left\{ \left(\frac{1}{n} \sum_{i=1}^n Y_i e_k(x)\right)_k \right\}
 \end{equation}
 
 である。
 
-\subsection{$a^*$の平均を求めよ}
-平均を$E_A(\cdot)$で表す。$E_A(Y_i) = 0$を用いて、
+\subsection{}
+平均を$\mathscr{E}(\cdot)$で表す。$\mathscr{E}(Y_i) = 0$を用いて、
 
 \begin{eqnarray}
-  E_A(a^*)
-    &=& E_A \left(\frac{1}{n}\sum_{i=0}^n Y_i e_k (x) \right) \nonumber \\
+  \mathscr{E}(a^*)
+    &=& \mathscr{E} \left(\frac{1}{n}\sum_{i=0}^n Y_i e_k (x) \right) \nonumber \\
     &=& 0
 \end{eqnarray}
 
@@ -59,36 +61,36 @@
 
 \begin{eqnarray}
   \sigma_{i, j}
-    &=& E_A
+    &=& \mathscr{E}
       \left(
         \left(a^*_k - \mu_i\right)
         \left(a^*_l - \mu_l\right)
       \right) \nonumber \\
-    &=& E_A\left(a^*_k \cdot a^*_l \right) \nonumber \\
-    &=& E_A
+    &=& \mathscr{E}\left(a^*_k \cdot a^*_l \right) \nonumber \\
+    &=& \mathscr{E}
       \left(
         \left(\frac{1}{n} \sum_{i = 1}^n Y_i e_k (x_i)\right)
         \left(\frac{1}{n} \sum_{i = 1}^n Y_i e_l (x_i)\right)
       \right) \nonumber \\
-    &=& \frac{1}{n^2} E_A
+    &=& \frac{1}{n^2} \mathscr{E}
       \left(
         \sum_{i, j = 1}^n Y_i Y_j e_k(x_i) e_l(x_j)
       \right) \label{var_ea_1}
 \end{eqnarray}
 
-となる。ここで、$E_A(Y_i) = 0, E_A(Y_i^2) = 1$であることより、
+となる。ここで、$\mathscr{E}(Y_i) = 0, \sqrt{\mathscr{E}(Y_i^2) - (E(Y_i))^2} = 1$, そして$Y_i$が独立であることより、
 
 \begin{eqnarray}
-  E_A\left(
+  \mathscr{E}\left(
     \sum_{i, j = 1}^n Y_i Y_j e_k(x_i) e_l(x_j)
   \right)
-    &=& \sum_{i, j = 1}^n E_A(Y_i)E_A(Y_j) \sum_{i, j = 1}^n e_k(x_i) e_l(x_j) \nonumber \\
+    &=& \sum_{i, j = 1}^n \mathscr{E}(Y_i)\mathscr{E}(Y_j) \sum_{i, j = 1}^n e_k(x_i) e_l(x_j) \nonumber \\
     &=& \begin{cases}
-      \sum_{i = 1}^n E_A(Y_i^2) \sum_{i = 1}^n e_k(x_i) e_l(x_i) & (i = j) \\
+      \sum_{i = 1}^n \mathscr{E}\left(Y_i^2\right)e_k(x_i) e_l(x_i) & (i = j) \\
       0  & (i \neq j)
     \end{cases} \nonumber \\
     &=& \begin{cases}
-      n^2 & (i = j) \\
+      n & (i = j) \\
       0 & (i \neq j)
     \end{cases} \label{var_ea_2}
 \end{eqnarray}
@@ -96,21 +98,104 @@
 となる。したがって、求める分散共分散行列 $\Sigma$ は、(\ref{var_ea_1})と(\ref{var_ea_2})より
 
 \begin{equation}
-  \Sigma = \left(
+  \Sigma = \frac{1}{n}\left(
     \begin{array}{cccc}
       1 & 0 & \ldots & 0 \\
       0 & 1 & \ldots & 0 \\
       \vdots & \vdots & \ddots & \vdots \\
       0 & 0 & \ldots & 1
     \end{array}
-  \right) = I
+  \right)
 \end{equation}
 
 と求まる。
 
 \subsection{}
+$E(a^*)$の平均値$\mathscr{E}(E(a^*))$を求めると、次のようになる。
 
+\begin{eqnarray}
+  \mathscr{E}\left(E(a^*)\right)
+    &=& \mathscr{E}\left(\frac{1}{n}
+      \sum_{i=1}^n
+        \left(
+          Y_i - \frac{1}{n}\sum_{k=1}^K Y_i e_k(x_i) e_k(x_i)
+        \right)^2\right) \nonumber \\
+    &=& \mathscr{E}\left(\frac{1}{n} \sum_{i=1}^n
+      \left(
+        Y_i^2 - \frac{2}{n} \left(
+          \sum_{k=1}^K Y_i^2 e_k(x_i) e_k(x_i)
+        \right) + \left(
+          \frac{1}{n} \sum_{k=1}^K Y_i e_k(x_i) e_k(x_i)
+        \right)^2\right)
+      \right) \nonumber \\
+    &=& \frac{1}{n} \sum_{i=1}^n \mathscr{E} \left(Y_i^2\right) -
+      \frac{2K}{n} \sum_{i=1}^n \mathscr{E} \left(Y_i^2\right) +
+      \frac{1}{n}
+        \sum_{k=1}^K \sum_{i=1}^n
+          \left(
+            \frac{1}{n}e_k(x_i)e_k(x_i)
+          \right)^2  \mathscr{E}(Y_i^2) \nonumber \\
+      &=& 1 - \frac{2K}{n} + \frac{K}{n} \nonumber \\
+      &=& 1 - \frac{K}{n}
+\end{eqnarray}
+\subsection{}
 
+\begin{equation}
+  \mathscr{A} = \frac{1}{n} \int_{- \infty}^{\infty}\sum_{i=1}^n \left(
+    y - f(x_i, a^*)
+  \right)^2 q(y) dy
+\end{equation}
+
+とおく。まず、$\mathscr{A}$を計算する。
+
+\begin{equation}
+  \begin{split}
+    \int_{-\infty}^{\infty}q(y)dy = 1, \quad
+    \int_{-\infty}^{\infty}yq(y)dy = 0, \quad
+    \int_{-\infty}^{\infty}y^2q(y)dy = 1
+  \end{split}
+\end{equation}
+
+であることを用いて、以下のようになる。
+
+\begin{eqnarray}
+  \begin{split}
+    \mathscr{A}
+      &= \frac{1}{n} \sum_{i=1}^n \int_{-\infty}^{\infty} \left(
+        y^2 - \frac{2}{n} \sum_{k=1}^K y Y_i e_k(x_i) e_k(x_i) +
+        \left(
+          \frac{1}{n} \sum_{k=1}^K Y_i e_k(x_i) e_k(x_i)
+        \right)^2
+      \right) q(y) dy \nonumber \\
+      &= \frac{1}{n} \sum_{k=1}^n \int_{-\infty}^{\infty} y^2 q(y) dy \\
+      &\qquad - \frac{2}{n^2} \sum_{k=1}^K \sum_{i=1}^n \int_{-\infty}^{\infty} y Y_i e_k(x_i) e_k(x_i) q(y) dy
+      + \frac{1}{n^3} \sum_{k=1}^K \sum_{i=1}^n Y_i^2 \left(
+        e_k(x_i) e_k(x_i)
+      \right)^2 \cdot \int_{-\infty}^{\infty} yq(y) dy \nonumber \\
+    &= \frac{1}{n} \cdot n \cdot 1 - \frac{2}{n^2} \sum_{k=1}^K \sum_{i=1}^n
+      Y_i^2 e_k(x_i) e_k(x_i) \cdot \int_{-\infty}^{\infty} y q(y) dy
+      + \frac{1}{n} \sum_{k=1}^K \sum_{i=1}^n Y_i^2 \left(
+        \frac{1}{n}e_k(x_i)e_k(x_i)
+      \right)^2 \nonumber \\
+    &= 1 + \frac{1}{n} \sum_{k=1}^K \sum_{i=1}^n Y_i^2 \left(
+      \frac{1}{n}e_k(x_i)e_k(x_i)
+    \right)^2
+  \end{split}
+\end{eqnarray}
+
+よって、$\mathscr{A}$の期待値は、
+
+\begin{eqnarray}
+  \mathscr{E}(\mathscr{A})
+    &=& 1 + \frac{1}{n} \sum_{k=1}^K \sum_{i=1}^n \mathscr{E}(Y_i^2) \left(
+      \frac{1}{n}e_k(x_i)e_k(x_i)
+    \right)^2 \nonumber \\
+    &=& 1 + \frac{K}{n}
+\end{eqnarray}
+
+となる。
+
+\newpage
 \section{応用問題}
 
 \subsection{}
