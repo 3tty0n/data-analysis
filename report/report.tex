@@ -1,14 +1,18 @@
-\documentclass[a4paper,xelatex,ja=standard,jafont=hiragino-pron]{bxjsarticle}
+\documentclass[a4paper,xelatex,ja=standard,jafont=hiragino-pron, 10pt]{bxjsarticle}
 
 \usepackage{xltxtra}
 \XeTeXlinebreaklocale "ja"
 
-\usepackage{amsmath, amssymb}
-\usepackage{mathrsfs}
-\topmargin = 0mm
-\oddsidemargin = 5mm
-\textwidth = 152mm
-\textheight = 240mm
+\usepackage{amsmath, amssymb, mathrsfs}
+\usepackage[dviout]{}
+\usepackage{fancyvrb, xcolor}
+\usepackage{listings}
+
+% \topmargin = 0mm
+% \oddsidemargin = 5mm
+% \textwidth = 152mm
+% \textheight = 240mm
+
 \renewcommand{\thesection}{問\arabic{section}}
 \renewcommand{\thesubsection}{(\arabic{subsection})}
 \renewcommand{\thesubsubsection}{(\arabic{subsection}.\arabic{subsubsection})}
@@ -200,9 +204,63 @@ $E(a^*)$の平均値$\mathscr{E}(E(a^*))$を求めると、次のようになる
 
 \subsection{}
 「市町村2012estat.csv」に対し、回帰分析、主成分分析とクラスタ分析を用いて解析を行った。
+環境は
+
+\begin{itemize}
+  \item macOS Sierra 10.12.2
+  \item Python 3.5.2
+  \item numpy, scipy, pandas, scikit-learn, matplotlib
+\end{itemize}
+
+である。
 
 \subsubsection{回帰分析}
 
+まず、15歳から64歳までの人口総数と転出者数の関係性を調べるため、この二者に対して
 
+\begin{equation}
+  [転出者数] = a \cdot [人口総数] + b
+\end{equation}
+
+という仮設を立て、回帰分析を行った。その結果、次のようなグラフを得た。
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[clip, width=12.0cm]{../data/picture/regression_ma.png}
+  \caption{15歳から64歳までの人口総数と転出者}
+  \label{reg_ma}
+\end{figure}
+
+また、モデルは次のようになった。
+
+\begin{lstlisting}[
+  backgroundcolor=\color{yellow},
+  basicstyle=\ttfamily,
+  frame=single]
+Formula: Y ~ <x> + <intercept>
+
+Number of Observations:         1870
+Number of Degrees of Freedom:   2
+
+R-squared:         0.8835
+Adj R-squared:     0.8834
+
+Rmse:           1505.4458
+
+F-stat (1, 1868): 14160.3938, p-value:     0.0000
+
+Degrees of Freedom: model 1, resid 1868
+
+------------------Summary of Estimated Coefficients------------------------
+Variable       Coef    Std Err     t-stat    p-value    CI 2.5%   CI 97.5%
+---------------------------------------------------------------------------
+        x     0.0655     0.0006     119.00     0.0000     0.0644     0.0666
+intercept  -116.7771    41.7843      -2.79     0.0052  -198.6743   -34.8800
+\end{lstlisting}
+
+今回の場合、決定係数が0.8835とあり、このモデルで88 $\%$ 以上説明できているということになる。
+また、F値が十分に大きく（14160.3938）、p値も0.0000と99$\%$以上妥当であるといえる。
+さらに、係数$a$（上の表における$x$）と$b$（上の表におけるintercept）の優位確率はそれぞれ0.0000と0.0052であるため、
+両方の値は妥当であるといえる。
 
 \end{document}
