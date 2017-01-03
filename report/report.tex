@@ -204,7 +204,7 @@ $E(a^*)$の平均値$\mathscr{E}(E(a^*))$を求めると、次のようになる
 
 \subsection{}
 「市町村2012estat.csv」に対し、回帰分析、主成分分析とクラスタ分析を用いて解析を行った。
-環境は
+次の環境で解析した。
 
 \begin{itemize}
   \item macOS Sierra 10.12.2
@@ -212,31 +212,32 @@ $E(a^*)$の平均値$\mathscr{E}(E(a^*))$を求めると、次のようになる
   \item numpy, scipy, pandas, scikit-learn, matplotlib
 \end{itemize}
 
-である。
-
 \subsubsection{回帰分析}
 
-まず、15歳から64歳までの人口総数と転出者数の関係性を調べるため、この二者に対して
+\paragraph{15歳から64歳までの人口総数と転出者数の関係}
+
+まず、15歳から64歳までの人口総数（中間人口総数）と転出者数の関係性を調べるため、この二者に対して
 
 \begin{equation}
-  [転出者数] = a \cdot [人口総数] + b
+  (\mbox{転出者数}) = a \cdot (\mbox{中間人口総数}) + b
 \end{equation}
 
 という仮設を立て、回帰分析を行った。その結果、次のようなグラフを得た。
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[clip, width=12.0cm]{../data/picture/regression_ma.png}
+  \includegraphics[clip, width=10.0cm]{../data/picture/regression_ma.png}
   \caption{15歳から64歳までの人口総数と転出者}
   \label{reg_ma}
 \end{figure}
 
-また、モデルは次のようになった。
+また、pandasのols関数で生成したモデルは次のようになった。
 
 \begin{lstlisting}[
   backgroundcolor=\color{yellow},
   basicstyle=\ttfamily,
-  frame=single]
+  frame=single,
+  caption=モデル1]
 Formula: Y ~ <x> + <intercept>
 
 Number of Observations:         1870
@@ -261,6 +262,59 @@ intercept  -116.7771    41.7843      -2.79     0.0052  -198.6743   -34.8800
 今回の場合、決定係数が0.8835とあり、このモデルで88 $\%$ 以上説明できているということになる。
 また、F値が十分に大きく（14160.3938）、p値も0.0000と99$\%$以上妥当であるといえる。
 さらに、係数$a$（上の表における$x$）と$b$（上の表におけるintercept）の優位確率はそれぞれ0.0000と0.0052であるため、
-両方の値は妥当であるといえる。
+両方の値は妥当であるといえる。ゆえに、この仮設は妥当であると判断できる。
+
+\paragraph{65歳以上の総人口と離婚件数の関係}
+
+さらに、65歳以上の総人口（老年人口数）と離婚件数の関係について、
+
+\begin{equation}
+  (\mbox{離婚件数}) = a \cdot (\mbox{老年人口数}) + b
+\end{equation}
+
+という仮設を立て、回帰分析を行った。その結果、次のようなグラフを得た。
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[clip, width=10.0cm]{../data/picture/regression_od.png}
+  \caption{}
+  \label{}
+\end{figure}
+
+また、pandasのols関数で生成したモデルは次のようになった。
+
+\begin{lstlisting}[
+  backgroundcolor=\color{yellow},
+  basicstyle=\ttfamily,
+  frame=single,
+  caption=モデル2]
+Formula: Y ~ <x> + <intercept>
+
+Number of Observations:         1870
+Number of Degrees of Freedom:   2
+
+R-squared:         0.9359
+Adj R-squared:     0.9359
+
+Rmse:             51.1998
+
+F-stat (1, 1868): 27277.3908, p-value:     0.0000
+
+Degrees of Freedom: model 1, resid 1868
+
+-----------------Summary of Estimated Coefficients------------------------
+Variable       Coef    Std Err     t-stat    p-value    CI 2.5%   CI 97.5%
+--------------------------------------------------------------------------
+        x     0.0096     0.0001     165.16     0.0000     0.0095     0.0097
+intercept   -14.4010     1.4768      -9.75     0.0000   -17.2956   -11.5064
+\end{lstlisting}
+
+今回の場合、決定係数が0.9359とあり、このモデルで93$\%$以上説明できているということになる。
+また、F値が十分に大きく（27277.3908）、p値も0.0000と99$\%$以上妥当であるといえる。
+さらに、係数$a$（上の表における$x$）と$b$（上の表におけるintercept）の優位確率はそれぞれ0.0000と0.0000であるため、
+両方の値は妥当であるといえる。ゆえに、この仮設は妥当であると判断できる。
+
+\subsubsection{主成分分析}
+
 
 \end{document}
