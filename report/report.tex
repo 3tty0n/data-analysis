@@ -4,7 +4,7 @@
 \XeTeXlinebreaklocale "ja"
 
 \usepackage{amsmath, amssymb, mathrsfs}
-\usepackage[dviout]{}
+\usepackage[dvips]{graphicx}
 \usepackage{fancyvrb, xcolor}
 \usepackage{listings}
 
@@ -315,6 +315,30 @@ intercept   -14.4010     1.4768      -9.75     0.0000   -17.2956   -11.5064
 両方の値は妥当であるといえる。ゆえに、この仮設は妥当であると判断できる。
 
 \subsubsection{主成分分析}
+
+主成分分析とは、もとのデータの情報の損失ができるだけ少ない軸を探す（射影したデータの分散が最大となる軸を探す）ための手法である。
+「市町村 2012estat.csv」に対して主成分分析を行い、どのパラメータが市区町村のデータに影響を与えているかを解析した。
+
+まず、12次元のデータに対し値を$(1+log(X))$としてスケール変換した。そして、「村」は赤色、「町」は青色、「市」は緑色、「区」は黄色に塗り分けたところ、
+図\ref{pca}が得られた。
+また、各変数の各主成分への影響⼒を表す因子負荷量をプロットしたら図\ref{pca_model}が得られた。
+赤は因子1、青は因子2を表す。
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=15cm]{../data/picture/factor_log.png}
+  \caption{主成分分析（スケール変換後）}
+  \label{pca}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=15cm]{../data/picture/factor_components.png}
+  \caption{因子負荷量}
+  \label{pca_model}
+\end{figure}
+
+
 
 
 \end{document}
