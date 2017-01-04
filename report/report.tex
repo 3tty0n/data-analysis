@@ -214,22 +214,18 @@ $E(a^*)$の平均値$\mathscr{E}(E(a^*))$を求めると、次のようになる
 
 \subsubsection{回帰分析}
 
+回帰分析とは、1つ（単回帰分析）または複数（重回帰分析）の説明変数と、1つの目的変数の関係を求め、説明変数から目的変数を推定する手法である。
+今回は単回帰分析を用いて解析を行った。
+
 \paragraph{15歳から64歳までの人口総数と転出者数の関係}
 
-まず、15歳から64歳までの人口総数（中間人口総数）と転出者数の関係性を調べるため、この二者に対して
+まず、15歳から64歳までの人口総数（労働人口総数）と転出者数の関係性を調べるため、この二者に対して
 
 \begin{equation}
-  (\mbox{転出者数}) = a \cdot (\mbox{中間人口総数}) + b
+  (\mbox{転出者数}) = a \cdot (\mbox{労働人口総数}) + b
 \end{equation}
 
-という仮設を立て、回帰分析を行った。その結果、次のようなグラフを得た。
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[clip, width=10.0cm]{../data/picture/regression_ma.png}
-  \caption{15歳から64歳までの人口総数と転出者}
-  \label{reg_ma}
-\end{figure}
+という仮設を立て、回帰分析を行った。その結果、図\ref{reg_ma}を得た。
 
 また、pandasのols関数で生成したモデルは次のようになった。
 
@@ -259,6 +255,13 @@ Variable       Coef    Std Err     t-stat    p-value    CI 2.5%   CI 97.5%
 intercept  -116.7771    41.7843      -2.79     0.0052  -198.6743   -34.8800
 \end{lstlisting}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[clip, width=10.0cm]{../data/picture/regression_ma.png}
+  \caption{15歳から64歳までの人口総数と転出者}
+  \label{reg_ma}
+\end{figure}
+
 今回の場合、決定係数が0.8835とあり、このモデルで88 $\%$ 以上説明できているということになる。
 また、F値が十分に大きく（14160.3938）、p値も0.0000と99$\%$以上妥当であるといえる。
 さらに、係数$a$（上の表における$x$）と$b$（上の表におけるintercept）の優位確率はそれぞれ0.0000と0.0052であるため、
@@ -272,14 +275,7 @@ intercept  -116.7771    41.7843      -2.79     0.0052  -198.6743   -34.8800
   (\mbox{離婚件数}) = a \cdot (\mbox{老年人口数}) + b
 \end{equation}
 
-という仮設を立て、回帰分析を行った。その結果、次のようなグラフを得た。
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[clip, width=10.0cm]{../data/picture/regression_od.png}
-  \caption{}
-  \label{}
-\end{figure}
+という仮設を立て、回帰分析を行った。その結果、図\ref{regression_od}を得た。
 
 また、pandasのols関数で生成したモデルは次のようになった。
 
@@ -309,6 +305,13 @@ Variable       Coef    Std Err     t-stat    p-value    CI 2.5%   CI 97.5%
 intercept   -14.4010     1.4768      -9.75     0.0000   -17.2956   -11.5064
 \end{lstlisting}
 
+\begin{figure}[!h]
+  \centering
+  \includegraphics[clip, width=10.0cm]{../data/picture/regression_od.png}
+  \caption{}
+  \label{regression_od}
+\end{figure}
+
 今回の場合、決定係数が0.9359とあり、このモデルで93$\%$以上説明できているということになる。
 また、F値が十分に大きく（27277.3908）、p値も0.0000と99$\%$以上妥当であるといえる。
 さらに、係数$a$（上の表における$x$）と$b$（上の表におけるintercept）の優位確率はそれぞれ0.0000と0.0000であるため、
@@ -319,26 +322,88 @@ intercept   -14.4010     1.4768      -9.75     0.0000   -17.2956   -11.5064
 主成分分析とは、もとのデータの情報の損失ができるだけ少ない軸を探す（射影したデータの分散が最大となる軸を探す）ための手法である。
 「市町村 2012estat.csv」に対して主成分分析を行い、どのパラメータが市区町村のデータに影響を与えているかを解析した。
 
-まず、12次元のデータに対し値を$(1+log(X))$としてスケール変換した。そして、「村」は赤色、「町」は青色、「市」は緑色、「区」は黄色に塗り分けたところ、
+まず、12次元のデータに対し値を$1+\log(X)$としてスケール変換した。そして、「村」は赤色、「町」は青色、「市」は緑色、「区」は黄色に塗り分けたところ、
 図\ref{pca}が得られた。
 また、各変数の各主成分への影響⼒を表す因子負荷量をプロットしたら図\ref{pca_model}が得られた。
-赤は因子1、青は因子2を表す。
+赤は第一主成分、青は第二主成分を表す。
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=15cm]{../data/picture/factor_log.png}
-  \caption{主成分分析（スケール変換後）}
-  \label{pca}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=15cm]{../data/picture/factor_components.png}
+  \includegraphics[clip, width=10cm]{../data/picture/factor_components.png}
   \caption{因子負荷量}
   \label{pca_model}
 \end{figure}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[clip, width=15cm]{../data/picture/factor_log.png}
+  \caption{主成分分析（スケール変換後）}
+  \label{pca}
+\end{figure}
+\newpage
+累積寄与率は次のようになった。2つの主成分で98$\%$も説明出来ているということになる。
 
+\begin{lstlisting}[caption=累積寄与率, frame=single]
+  >>> np.cumsum(pca.explained_variance_ratio_)
+  >>> [0.97208879  0.98477677]
+\end{lstlisting}
+
+図\ref{pca_model}より、第一主成分は「15歳から64歳までの人口総数」、「出生率」、「転出者数」とそして「婚姻件数」の負荷量が高いことがわかる。
+よって、第一主成分は住民の文化的営みの度合いに関係があるといえる。
+また、第二主成分はどれも低い値を示している。
+これは、どの変数にも共通していることに負の関係があるといえる（地区の規模などのようなもの）。
+
+図\ref{pca}を見ると、市区町村がクラスタにそれぞれ分割できているのがわかる。
+また、第一主成分が高い地区は住民の文化的営みの度合いが高く、第二主成分が低い地区は地区の規模が大きいといえる。
+
+\subsubsection{クラスタ分析}
+
+ラベル付けがなされていないデータに対して、近しい属性を持つデータをグループ化する手法である。
+市区町村のデータに対してクラスタ分析を行い、解析を行った結果図\ref{clustering}が得られた。
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[clip, width=15cm]{../data/picture/clustering.png}
+  \caption{クラスタ分析}
+  \label{clustering}
+\end{figure}
+
+この結果から次のように説明できる。
+まず、クラスタの分類に寄与しているのは人口総数と昼間人口、そして15歳から64歳までの人口総数である。
+その規模に従ってリニアーに4つのクラスタに分類され、クラスタ番号2に分類された地区が最も人口総数と昼間人口、そして15歳から64歳までの人口総数が大きく、
+クラスタ番号3に分類された地区が最も小さいと言える。
+
+\subsection{}
+
+解析結果をもとにして日本全国の市区町村についてわかることを挙げる。
+
+\begin{itemize}
+  \item
+    労働人口総数と転出者数は良い相関があり、仕事を求めていくという理由から労働人口が大きい地区ほど転出者数が増えるといえる。
+  \item
+    老年人口総数と離婚件数は良い相関があり、老年人口数が大きい地区は離婚件数も増えるといえる。
+    近年「熟年離婚」が話題になっていることからも頷ける。
+  \item
+    日本の市区町村は、大まかに4つのクラスタに分類され、それは「市区町村」という名前で区別されているものとほぼ一致する。
+  \item
+    4つのクラスタは住民の文化的営みと地区の規模という２つのパラメータによって分類される。
+    地区の規模の大きさによって「区」「市」「町」「村」の順にリニアに分類される。
+  \item
+    例えば「小笠原村」や「青ヶ島村」など、人口総数の小さい「村」でも文化的営みの度合いが高いところがある。
+    そこは小さい集落で密度の高い生活が営まれていると推測できる。
+  \item
+    「区」でも文化的営みが特に小さい地区があるのが興味深い。なお、それはドヤ街で有名な「西成区」である。
+    一方で、同じ地区の規模でも「浦安市」のほうがずっと文化的営みの度合いが高いのは、「ディズニーランド」のようなレジャー施設があるからと推測できる。
+\end{itemize}
+
+\section*{参考}
+
+\begin{itemize}
+  \item「PythonでPCA」\url{http://i.cla.kobe-u.ac.jp/murao/class/2015-SeminarB3/05\_Python\_de\_PCA.pdf}
+  \item「scikit-learn でクラスタ分析 (K-means 法)」\href{http://pythondatascience.plavox.info/scikit-learn/%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%BF%E5%88%86%E6%9E%90-k-means/}
+  \item「Pythonを使ったデータ解析入門 3idea」\url{https://openbook4.me/projects/183/sections/1366}
+  \item 「PyData入門」\url{http://www.tsjshg.info/intro\_pydata/intro01.html}
+\end{itemize}
 
 
 \end{document}
